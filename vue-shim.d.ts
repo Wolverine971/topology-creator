@@ -4,5 +4,3 @@ declare module "*.vue" {
   }
 
   declare module 'vue-json-edit'
-
-  declare module 'v-jsoneditor/src/index';

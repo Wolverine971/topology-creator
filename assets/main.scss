@@ -6,10 +6,6 @@
     flex-direction: column;
 }
 
-// .poop {
-//     width: 50% !important;
-// }
-
 .margin-left {
     margin-left:15px;
 }
@@ -18,4 +14,20 @@
     margin: 15px;
     padding: 20px;
     font-size: large;
+}
+.colon-large {
+    margin: 15px;
+    font-size: large;
+}
+
+.margin {
+    margin: 10px;
+}
+
+.max-width {
+    max-width: 200px !important;;
+}
+
+.wClass {
+    color: 'white';
 }

@@ -1,31 +1,41 @@
 <template>
   <div>
-    <json-edit />
-
+    <!-- <json-edit /> -->
     <div>
-      <root id="root" @rootInit="visNetwork($event)" />
+      <node id="node" @nodeUpdated="setNode($event)" />
+      <v-btn @click="visTree">See Tree</v-btn>
     </div>
-    <network />
+    <network :node="node" />
   </div>
 </template>
 
 <script>
-import FieldList from "../components/json/fieldList.vue";
-import Root from "../components/json/root.vue";
+import Node from "../components/json/node.vue";
 import jsonEdit from "../components/jsonEdit.vue";
 import Network from "../components/network.vue";
 export default {
   components: {
     jsonEdit,
     Network,
-    "field-list": FieldList,
-    Root
+    Node
+  },
+  data() {
+    return {
+      node: {},
+      seeTree: false,
+      inited: false,
+      tempNode: {}
+    };
   },
   methods: {
-    visNetwork(event) {
-      console.log('vis network')
+    setNode(event) {
+      this.tempNode = event;
+      this.inited = true;
+    },
+    visTree() {
+      this.seeTree = true;
+      this.node = Object.assign({},this.tempNode)
     }
   }
 };
 </script>
-

@@ -1,22 +1,25 @@
 <template>
   <div class="flex-row margin-left">
     <v-text-field
-      :label="type === 'root' ? 'Root' : 'Key'"
+      :label="type === 'node' ? 'Node Name' : 'Key'"
       outlined
+      class="max-width"
       v-model="key"
     ></v-text-field>
     <v-select
       :items="options"
       label="Type"
       outlined
+      class="max-width"
       v-model="valueType"
-    ></v-select> 
+    ></v-select>
   </div>
 </template>
 
 <script>
+import debounce from "lodash.debounce";
 export default {
-  name: "key",
+  name: "Key",
   props: {
     type: {
       type: String,
@@ -33,29 +36,23 @@ export default {
     };
   },
   mounted() {
-    if (this.type === "root") {
+    if (this.type === "node") {
       this.options = ["person", "place", "thing", "url"];
     } else {
-      this.options = ["string", "object", "array"];
+      this.options = ["string", "array"]; // "object"
     }
-  },
-  methods: {
-    ready() {
-      console.log(this.valueType);
-      this.$emit("typeChosen", this.valueType);
-      this.add = false;
-    },
-    // remove() {
-    //   this.add = true;
-    // }
   },
   watch: {
-    valueType(val){
-      console.log(this.valueType);
-      this.$emit("typeChosen", this.valueType);
-      // this.add = false;
-    }
-
+    valueType: debounce(function(val) {
+      if (val && this.key) {
+        this.$emit("keyUpdated", [this.key, val]);
+      }
+    }, 200),
+    key: debounce(function(val) {
+      if (val && this.valueType) {
+        this.$emit("keyUpdated", [val, this.valueType]);
+      }
+    }, 200)
   }
 };
 </script>

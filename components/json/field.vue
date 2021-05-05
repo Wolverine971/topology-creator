@@ -1,21 +1,19 @@
 <template>
-  <div :class="type === 'string' ? 'flex-row' : 'flex-col'">
-    <!-- <v-row > -->
-    <key @typeChosen="typeChosen($event)" />
-    <value :type="type" />
-    <v-btn @click="remove"><v-icon>mdi-minus</v-icon> </v-btn>
-    <!-- </v-row> -->
+  <div :class="type === 'string' ? 'flex-row' : 'flex-row'">
+    <key @keyUpdated="keyUpdated($event)" />
+    <!-- <span v-if="type" class="colon-large">: </span> -->
+    <value :type="type" @valueUpdated="valueUpdated($event)" v-if="type" />
+    <v-btn @click="remove" class="margin"><v-icon>mdi-minus</v-icon> </v-btn>
   </div>
 </template>
 
 <script>
-import Value from "./value.vue";
-import Key from "./key.vue";
+import debounce from "lodash.debounce";
 export default {
   name: "Field",
   components: {
-    Value,
-    Key
+    Value: () => import("./value.vue"),
+    Key: () => import("./key.vue")
   },
   props: {
     fieldkey: {
@@ -26,17 +24,50 @@ export default {
   },
   data() {
     return {
-      type: ""
+      key: "",
+      type: "",
+      value: ""
     };
   },
   methods: {
-    typeChosen(event) {
-      this.$emit("valCreated", this.fieldkey);
-      this.type = event;
+    keyUpdated(event) {
+      this.key = event[0];
+      this.type = event[1];
+    },
+    valueUpdated(event) {
+      this.value = event;
     },
     remove() {
-        this.$emit("remove", this.fieldkey);
+      this.$emit("remove", this.fieldkey);
     }
+  },
+  watch: {
+    type(val) {
+      if (val) {
+        this.$emit("fieldCreated", {
+          index: this.fieldkey,
+          value: {
+            [this.key]: val === "string" ? "" : val === "object" ? {} : []
+          }
+        });
+      }
+    },
+    key: debounce(function(val) {
+      if (val && this.value) {
+        this.$emit("fieldCreated", {
+          index: this.fieldkey,
+          value: { val: this.value }
+        });
+      }
+    }, 200),
+    value: debounce(function(val) {
+      if (val && this.key) {
+        this.$emit("fieldCreated", {
+          index: this.fieldkey,
+          value: { [this.key]: val }
+        });
+      }
+    }, 200)
   }
 };
 </script>
