@@ -2,17 +2,9 @@
   <div>
     <div class="title">
       <h1>
-        <!-- <a href="https://github.com/emiliorizzo/vue-d3-network"
-          >vue-d3-network</a
-        > -->
         Topology Creator
       </h1>
       <ul class="menu">
-        <!-- <li>
-          <label> Node size </label>
-          <input type="range" min="1" max="100" v-model="nodeSize" />
-          {{ options.nodeSize }}
-        </li> -->
         <li>
           <label>Render as </label>
           <input type="radio" :value="false" v-model="canvas" />
@@ -48,14 +40,14 @@ let thing =
 export default {
   name: "network",
   components: {
-    D3Network
+    D3Network,
   },
   props: {
     node: {
       type: Object,
       default: {},
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
@@ -66,7 +58,7 @@ export default {
       initNode: {
         node: {
           key: "Root",
-          value: "person"
+          value: "person",
         },
         attributes: {
           dfsdfdsf: "sdfsdf",
@@ -75,56 +67,56 @@ export default {
           FFFFFFFFFF: {
             node: {
               key: "link2",
-              value: "url"
+              value: "url",
             },
             attributes: {
               attr3: "fdf",
               attr4: "tytyty",
-              attr5: "dfdsf"
+              attr5: "dfdsf",
             },
-            links: ["shampooo"]
-          }
+            links: ["shampooo"],
+          },
         },
         links: [
           "link1",
           {
             node: {
               key: "link2",
-              value: "thing"
+              value: "thing",
             },
             attributes: {
               attr3: "fdf",
               attr4: "tytyty",
-              attr5: "dfdsf"
+              attr5: "dfdsf",
             },
             links: [
               {
                 node: {
                   key: "sdfsdfdsf",
-                  value: "place"
+                  value: "place",
                 },
                 attributes: {
                   dfgdfg: "dfdg",
                   fdgdfg: {
                     node: {
                       key: "casa",
-                      value: "place"
+                      value: "place",
                     },
                     attributes: {
                       hjghj: "hgjghj",
-                      jghj: "ghjghj"
-                    }
-                  }
-                }
-              }
-            ]
-          }
-        ]
+                      jghj: "ghjghj",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+        ],
       },
       initNode2: {
         node: {
           key: "Podcast",
-          value: "url"
+          value: "url",
         },
         attributes: {
           length: "10min",
@@ -133,14 +125,14 @@ export default {
             {
               node: {
                 key: "FORESKINNN",
-                value: "thing"
+                value: "thing",
               },
               attributes: {
                 number: "44444",
-                group: "poopers thinkers"
-              }
-            }
-          ]
+                group: "poopers thinkers",
+              },
+            },
+          ],
         },
         links: [
           "linkL",
@@ -148,7 +140,7 @@ export default {
           {
             node: {
               key: "People",
-              value: "person"
+              value: "person",
             },
             attributes: {
               number: "1",
@@ -157,34 +149,34 @@ export default {
               nodeTWO: {
                 node: {
                   key: "Tim Ferris",
-                  value: "person"
+                  value: "person",
                 },
                 attributes: {
                   height: "ten ft tall",
                   strength: "5000",
                   interests: ["jogging", "reading"],
                   florida: "man",
-                  gator: "gur"
+                  gator: "gur",
                 },
-                links: ["linkerJJ", "linkerPP"]
-              }
-            }
-          }
-        ]
+                links: ["linkerJJ", "linkerPP"],
+              },
+            },
+          },
+        ],
       },
       brokenNode: {
         node: {
           key: "dad",
-          value: "person"
+          value: "person",
         },
         attributes: {
-          sdf: "sdfsdf"
+          sdf: "sdfsdf",
         },
         links: [
           {
             node: {
               key: "gfgfgfg",
-              value: "person"
+              value: "person",
             },
             attributes: {
               hfgh: [
@@ -194,12 +186,12 @@ export default {
                 {
                   node: {
                     key: "dsfsdf",
-                    value: "person"
+                    value: "person",
                   },
                   attributes: {
-                    ggggg: "egege"
-                  }
-                }
+                    ggggg: "egege",
+                  },
+                },
               ],
               val: [
                 "var",
@@ -208,21 +200,21 @@ export default {
                 {
                   node: {
                     key: "dsfsdf",
-                    value: "person"
+                    value: "person",
                   },
                   attributes: {
-                    ggggg: "egege"
-                  }
-                }
+                    ggggg: "egege",
+                  },
+                },
               ],
-              gfsdgdfg: "grdgdg"
-            }
-          }
-        ]
+              gfsdgdfg: "grdgdg",
+            },
+          },
+        ],
       },
 
       nodeSize: 20,
-      canvas: false
+      canvas: false,
     };
   },
   methods: {
@@ -251,9 +243,9 @@ export default {
               name: node.node.key,
               type: node.node.value,
               _color: "blue",
-              svgSym: this.getSym(node.node)
+              svgSym: this.getSym(node.node),
             }
-          )
+          ),
         ];
         lastIndex = this.processAttribs(node, lastIndex);
       } else if (Array.isArray(node)) {
@@ -271,9 +263,9 @@ export default {
             {
               id: lastIndex,
               name: node,
-              _color: "purple"
+              _color: "purple",
             }
-          )
+          ),
         ];
         lastIndex = this.processAttribs(node, lastIndex);
       }
@@ -293,9 +285,10 @@ export default {
               {
                 node: Object.assign(
                   {},
-                  { key: node.attributes[n], type: n },
-                  node.attributes[n]
-                )
+                  { key: node.attributes[n], type: n }
+                  // ,
+                  // node.attributes[n]
+                ),
               },
               lastIndex + 1
             );
@@ -327,8 +320,8 @@ export default {
                 ? node.node.key
                 : typeof node === "string"
                 ? node
-                : "attribute"
-            }
+                : "attribute",
+            },
           ];
         }
       }
@@ -376,7 +369,7 @@ export default {
       } else {
         sym.value ? node.node.value : "";
       }
-    }
+    },
   },
   mounted() {},
   computed: {
@@ -387,9 +380,9 @@ export default {
         nodeSize: this.nodeSize,
         nodeLabels: true,
         linkLabels: true,
-        canvas: this.canvas
+        canvas: this.canvas,
       };
-    }
+    },
   },
   watch: {
     node(val) {
@@ -397,13 +390,14 @@ export default {
         this.showNetwork = false;
         this.nodes = [];
         this.links = [];
+        this.tempL = [];
         this.createNode(val, 1);
         this.generateLinks(val, 1, 1);
         this.links = [...this.tempL];
         this.showNetwork = true;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

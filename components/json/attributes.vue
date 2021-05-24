@@ -1,9 +1,11 @@
 <template>
-  <div class="margin-left">
+  <div class="margin-left" v-if="fields">
     Attributes
-    <div class="flex-row" v-for="key in fields" :key="key">
+    <div class="flex-row" v-for="(field, i) in fields" :key="i">
       <field
-        :fieldkey="key"
+        :index="i"
+        :fieldkey="field.key"
+        :fieldValue="field.value"
         @fieldCreated="valUpdated($event)"
         @remove="remove($event)"
       />
@@ -18,39 +20,53 @@
 export default {
   name: "Attributes",
   components: {
-    Field: () => import("./field.vue")
+    Field: () => import("./field.vue"),
+  },
+  props: {
+    attributes: Object,
   },
   data() {
     return {
       fields: [],
       fieldsArr: [],
       addEnabled: true,
-      setFields: {}
+      setFields: {},
     };
   },
   methods: {
     addField() {
-      this.fields = [...this.fields, this.fields.length + 1];
+      this.fields = [...this.fields, { key: "", value: null }];
       this.addEnabled = false;
     },
     remove(event) {
-      this.fields = this.fields.filter(e => e !== event);
-      this.fieldsArr.splice(event, 1)
-      this.resetFields()
+      this.fields.splice(event, 1);
+      this.resetFields();
     },
     valUpdated(event) {
       this.addEnabled = true;
-      this.fieldsArr[event.index] = Object.assign({}, event.value)
-      this.resetFields()
+      this.fields[event.index] = Object.assign({}, event.value);
+      this.resetFields();
     },
-    resetFields(){
-      this.fieldsArr.forEach(f=>{
-        this.setFields = Object.assign({}, this.setFields, f);
-
-      })
-      this.$emit("setAttributes", this.setFields);
-    }
-  }
+    resetFields() {
+      let setFields = {};
+      this.fields.forEach((f) => {
+        setFields = Object.assign({}, setFields, { [f.key]: f.value });
+      });
+      this.$emit("setAttributes", setFields);
+    },
+  },
+  watch: {
+    attributes(val) {
+      if (val) {
+        this.fields = Object.keys(val).map((k) => {
+          return { key: k, value: val[k] };
+        });
+      } else {
+        this.fields = [];
+      }
+      console.log("fields");
+    },
+  },
 };
 </script>
 

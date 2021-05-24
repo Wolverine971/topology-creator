@@ -1,7 +1,11 @@
 <template>
   <div class="margin-left">
-    <div class="flex-row margin-left" v-for="(val, i) in values" :key="i">
-      <value :type="val" @valueUpdated="valueUpdated(i, $event)" />
+    <div
+      class="flex-row margin-left"
+      v-for="(val, i) in displayedValues"
+      :key="i"
+    >
+      <value :value="val" @valueUpdated="valueUpdated(i, $event)" />
       <v-btn @click="remove(i)" class="margin"
         ><v-icon>mdi-minus</v-icon>
       </v-btn>
@@ -22,8 +26,8 @@
       </template>
       <v-list>
         <v-list-item
-          v-for="(item, index) in options"
-          :key="index"
+          v-for="(item, j) in options"
+          :key="j"
           @click="addValue(item)"
         >
           <v-list-item-title>{{ item }}</v-list-item-title>
@@ -37,32 +41,52 @@
 export default {
   name: "ValueList",
   components: {
-    Value: () => import("./value.vue")
+    Value: () => import("./value.vue"),
+  },
+  props: {
+    values: {
+      type: Array,
+      default: function () {
+        return [];
+      },
+      required: false,
+    },
   },
   data() {
     return {
-      values: [],
+      displayedValues: [],
       options: ["string", "object", "array"],
-      valueType: null,
       addEnabled: true,
-      setValues: []
     };
+  },
+  mounted() {
+    this.displayedValues = this.values;
   },
   methods: {
     addValue(event) {
+      const val =
+        event === "string"
+          ? ""
+          : event === "object"
+          ? { node: {}, attributes: {}, links: [] }
+          : [];
       this.addEnabled = false;
-      this.values = [...this.values, event];
+      this.displayedValues = [...this.displayedValues, val];
     },
     valueUpdated(index, event) {
       this.addEnabled = true;
-      this.setValues[index] = event;
-      this.$emit("setValues", this.setValues);
+      this.displayedValues[index] = event;
+      this.$emit("setValues", this.displayedValues);
     },
     remove(event) {
-      this.values = this.values.filter(e => e !== event);
-      this.setValues = this.setValues.filter(e => e !== event);
-    }
-  }
+      this.displayedValues = this.displayedValues.filter((e) => e !== event);
+    },
+  },
+  watch: {
+    values(vals) {
+      this.displayedValues = vals;
+    },
+  },
 };
 </script>
 
