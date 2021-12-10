@@ -49,7 +49,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: process.env.GQL_URL || 'http://localhost:3002/graphql'
+    baseURL: process.env.GQL_URL || 'http://localhost:3005/graphql'
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
