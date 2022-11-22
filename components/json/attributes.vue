@@ -1,6 +1,6 @@
 <template>
   <div class="margin-left" v-if="fields">
-    Attributes
+    {{ label ? label : "Attributes" }}
     <div class="flex-row" v-for="(field, i) in fields" :key="i">
       <field
         :index="i"
@@ -20,17 +20,28 @@
 export default {
   name: "Attributes",
   components: {
-    Field: () => import("./field.vue"),
+    Field: () => import("./field.vue")
   },
   props: {
-    attributes: Object,
+    attributes: {
+      type: Object,
+      default: () => {
+        return {};
+      },
+      required: false
+    },
+    label: {
+      type: String,
+      default: "",
+      required: false
+    }
   },
   data() {
     return {
       fields: [],
       fieldsArr: [],
       addEnabled: true,
-      setFields: {},
+      setFields: {}
     };
   },
   methods: {
@@ -49,24 +60,24 @@ export default {
     },
     resetFields() {
       let setFields = {};
-      this.fields.forEach((f) => {
+      this.fields.forEach(f => {
         setFields = Object.assign({}, setFields, { [f.key]: f.value });
       });
       this.$emit("setAttributes", setFields);
-    },
+    }
   },
   watch: {
     attributes(val) {
       if (val) {
-        this.fields = Object.keys(val).map((k) => {
+        this.fields = Object.keys(val).map(k => {
           return { key: k, value: val[k] };
         });
       } else {
         this.fields = [];
       }
       console.log("fields");
-    },
-  },
+    }
+  }
 };
 </script>
 

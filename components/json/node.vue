@@ -7,6 +7,7 @@
       :node="true"
     />
     <attributes
+      :label="'Attributes'"
       :attributes="shownNode.attributes"
       @setAttributes="setAttributes($event)"
     />
@@ -21,14 +22,14 @@ export default {
   components: {
     Key: () => import("./key.vue"),
     Attributes: () => import("./attributes.vue"),
-    ValueList: () => import("./valueList.vue"),
+    ValueList: () => import("./valueList.vue")
   },
   props: {
     node: {
       type: Object,
       required: true,
-      default: {},
-    },
+      default: {}
+    }
   },
   data() {
     return {
@@ -37,8 +38,8 @@ export default {
       shownNode: {
         node: {},
         attributes: {},
-        links: [],
-      },
+        links: []
+      }
     };
   },
   mounted() {
@@ -61,14 +62,14 @@ export default {
       console.log(links);
       this.shownNode.links = [...links];
       this.$emit("nodeUpdated", this.shownNode);
-    },
+    }
   },
   watch: {
     node(val) {
       console.log(val);
       this.shownNode = Object.assign({}, this.shownNode, val);
-    },
-  },
+    }
+  }
 };
 </script>
 
