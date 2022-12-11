@@ -3,7 +3,8 @@
     <div>
       <create-class />
       <br />
-      <create-object />
+      <objects />
+      <br />
     </div>
   </div>
 </template>
@@ -14,13 +15,15 @@ import CreateObject from "../components/createObject.vue";
 import Node from "../components/json/node.vue";
 // import jsonEdit from '../components/jsonEdit.vue'
 import Network from "../components/network.vue";
+import Objects from "../components/objects.vue";
 export default {
   components: {
     // jsonEdit,
     Network,
     Node,
     CreateClass,
-    CreateObject
+    CreateObject,
+    Objects
   },
   data() {
     return {

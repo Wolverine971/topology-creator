@@ -22,6 +22,10 @@ export default {
     { src: "~/plugins/jsonEdit", mode: "client" },
     { src: "~/plugins/network", mode: "client" }
   ],
+  router: {
+    middleware: [],
+    routes: []
+  },
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
